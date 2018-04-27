@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.provider.MediaStore;
 
 import java.util.List;
 
@@ -16,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
 
     private final static int REQ_PHOTO = 1234;
     private Bitmap photoImg = null;
+    //private final static String TARGET_PACKAGE = "jp.ac.titech.itpro.sdl.activitytest2";
+    //private final static String TARGET_CLASS = TARGET_PACKAGE + ".NameInputActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +30,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
+                intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
                 // TODO: You should setup appropriate parameters for the intent
+                //intent.setClassName(TARGET_PACKAGE, TARGET_CLASS);
+                //Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                //startActivityForResult(intent, RESULT_CAMERA);
                 PackageManager packageManager = getPackageManager();
                 List activities = packageManager
                         .queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
@@ -55,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
         case REQ_PHOTO:
             if (resCode == RESULT_OK) {
                 // TODO: You should implement the code that retrieve a bitmap image
+                photoImg = (Bitmap) data.getExtras().get("data");
+                //showPhoto();
             }
             break;
         }
